@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, pink, purple);
+  color: white;
+  font-size: 20px;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+ul {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+/* SECTIONS */
+section {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PROFILE */
+.profile {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 30px pink, 0 0 60px purple;
+}
+
+/* HEARTS */
+.hearts {
+  position: absolute;
+  font-size: 30px;
+  animation: float 3s infinite alternate;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-20px); }
+}
+
+/* SKILLS */
+.bar {
+  width: 300px;
+  height: 10px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.bar div {
+  height: 10px;
+  border-radius: 10px;
+}
+
+.html { width: 90%; background: pink; }
+.js { width: 75%; background: yellow; }
+.css { width: 85%; background: cyan; }
+.c { width: 70%; background: red; }
+.cpp { width: 65%; background: green; }
+.py { width: 80%; background: violet; }
+
+/* CONTACT */
+.contact {
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.form-box {
+  width: 40%;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+}
+
+.chat-box {
+  width: 40%;
+  height: 300px;
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 20px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* MESSAGE */
+.msg {
+  background: purple;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#send-button{
+  display: block;
+  padding:10px;
+}
+
+#name{
+  display: block;
+  padding:10px;
+  margin-bottom:10px;
+}
+
+#email{
+  display: block;
+  padding:10px;
+  margin-bottom:10px;
+}
+
+#message{
+  display: block;
+  padding:10px;
+  margin-bottom:10px;
+}
+
