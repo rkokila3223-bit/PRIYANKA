@@ -7,14 +7,12 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // DB CONNECTION
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "flower", // 👉 put your mysql password if you have
+  database: "portfolio_db"
 });
-
-module.exports = pool;
 
 db.connect(err => {
   if (err) console.log("DB ERROR ❌", err);
