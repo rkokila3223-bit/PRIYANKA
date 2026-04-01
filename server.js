@@ -1,22 +1,16 @@
-const express = require("express");
-const mysql = require("mysql2");
+const express = require('express');
+const pool = require('./db');
 
 const app = express();
-
 app.use(express.json());
-app.use(express.static("public"));
 
-// DB CONNECTION
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "flower", // 👉 put your mysql password if you have
-  database: "portfolio_db"
+app.get('/', async (req, res) => {
+  const result = await pool.query('SELECT NOW()');
+  res.send(result.rows);
 });
 
-db.connect(err => {
-  if (err) console.log("DB ERROR ❌", err);
-  else console.log("MySQL Connected ✅");
+app.listen(3000, () => {
+  console.log('Server running');
 });
 
 // SEND MESSAGE
