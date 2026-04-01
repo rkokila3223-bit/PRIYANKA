@@ -1,0 +1,40 @@
+function sendMessage() {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const message = document.getElementById("message").value;
+
+  fetch("/send", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ name, email, message })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Message sent 💜");
+      loadMessages();
+    }
+  });
+}
+
+function loadMessages() {
+  fetch("/messages")
+    .then(res => res.json())
+    .then(data => {
+      const box = document.getElementById("messages");
+      box.innerHTML = "";
+
+      data.forEach(msg => {
+        box.innerHTML += `
+          <div class="msg">
+            <b>${msg.name}</b><br>
+            ${msg.message}
+          </div>
+        `;
+      });
+    });
+}
+
+loadMessages();
