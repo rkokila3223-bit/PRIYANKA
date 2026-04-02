@@ -8,7 +8,7 @@ function sendMessage() {
     return;
   }
 
-  fetch("/send", {
+  fetch("https://priyanka-production.up.railway.app/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -24,7 +24,7 @@ function sendMessage() {
 }
 
 function loadMessages() {
-  fetch("/messages")
+  fetch("https://priyanka-production.up.railway.app/messages")
   .then(res => res.json())
   .then(data => {
     const box = document.getElementById("msgList");
