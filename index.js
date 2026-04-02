@@ -18,13 +18,13 @@ const db = mysql.createConnection({
   port: process.env.MYSQLPORT
 });
 
-// ✅ Connect + create table
 db.connect((err) => {
   if (err) {
-    console.log("DB Connection Error:", err);
-    return;
+    console.log("DB failed:", err);
+  } else {
+    console.log("DB connected ✅");
   }
-  console.log("Connected to Railway MySQL");
+});
 
   db.query(`
     CREATE TABLE IF NOT EXISTS messages (
