@@ -39,14 +39,20 @@ db.connect((err) => {
 app.post("/send", (req, res) => {
   const { name, email, message } = req.body;
 
+  if (!name || !email || !message) {
+    return res.status(400).send("All fields required");
+  }
+
   const sql = "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
 
-  db.query(sql, [name, email, message], (err) => {
+  db.query(sql, [name, email, message], (err, result) => {
     if (err) {
-      console.log(err);
-      return res.json({ success: false });
+      console.log("❌ DB Insert Error:", err);
+      return res.status(500).send("Database Error");
     }
-    res.json({ success: true });
+
+    console.log("✅ Inserted:", result);
+    res.send("Message saved successfully ✅");
   });
 });
 
