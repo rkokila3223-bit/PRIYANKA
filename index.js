@@ -14,6 +14,7 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public"));
 
 // ✅ Railway DB connection
 const db = mysql.createConnection({
