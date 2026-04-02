@@ -8,10 +8,11 @@ app.use(express.static("public"));
 
 // DB CONNECTION
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "flower", // 👉 put your mysql password if you have
-  database: "portfolio_db"
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
 });
 
 db.connect(err => {
