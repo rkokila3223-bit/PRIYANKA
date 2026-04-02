@@ -1,15 +1,21 @@
 const express = require("express");
 const mysql = require("mysql2");
+
+const app = express();
+
+app.use(express.json());
+app.use(express.static("public"));
+
+// DB CONNECTION
+const express = require("express");
+const mysql = require("mysql2");
 const cors = require("cors");
 
-const app = express(); // ✅ initialize FIRST
-
-// ✅ Middleware
+const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static("public")); // serves your frontend
 
-// ✅ Railway MySQL connection
+// ✅ Railway DB connection
 const db = mysql.createConnection({
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -18,13 +24,13 @@ const db = mysql.createConnection({
   port: process.env.MYSQLPORT
 });
 
-db.connect((err) => {
+// ✅ Create table
+db.connect(err => {
   if (err) {
-    console.log("DB failed:", err);
-  } else {
-    console.log("DB connected ✅");
+    console.log("DB Error:", err);
+    return;
   }
-});
+  console.log("Connected to DB");
 
   db.query(`
     CREATE TABLE IF NOT EXISTS messages (
@@ -40,39 +46,24 @@ db.connect((err) => {
 app.post("/send", (req, res) => {
   const { name, email, message } = req.body;
 
-  if (!name || !email || !message) {
-    return res.send("All fields required");
-  }
-
   const sql = "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
-
   db.query(sql, [name, email, message], (err) => {
     if (err) {
-      console.log("Insert Error:", err);
-      return res.send("Error saving message");
+      console.log(err);
+      return res.send("Error");
     }
-    res.send("Message Saved ✅");
+    res.send("Success");
   });
 });
 
 // ✅ GET - fetch messages
 app.get("/messages", (req, res) => {
-  db.query("SELECT * FROM messages ORDER BY id DESC", (err, result) => {
-    if (err) {
-      console.log("Fetch Error:", err);
-      return res.json([]);
-    }
+  db.query("SELECT * FROM messages", (err, result) => {
+    if (err) return res.json([]);
     res.json(result);
   });
 });
 
-// ✅ Test route (optional)
-app.get("/", (req, res) => {
-  res.send("Server is running 🚀");
-});
-
-// ✅ Railway PORT (IMPORTANT)
+// ✅ IMPORTANT (Railway port)
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log("Server running"));
