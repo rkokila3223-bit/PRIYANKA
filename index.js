@@ -42,7 +42,7 @@ db.connect(err => {
 });
 
 // ✅ POST - save message
-app.post("/send", (req, res) => {
+app.post("https://priyanka-production.up.railway.app/send", (req, res) => {
   const { name, email, message } = req.body;
 
   const sql = "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
@@ -56,7 +56,7 @@ app.post("/send", (req, res) => {
 });
 
 // ✅ GET - fetch messages
-app.get("/messages", (req, res) => {
+app.get("https://priyanka-production.up.railway.app/messages", (req, res) => {
   db.query("SELECT * FROM messages", (err, result) => {
     if (err) return res.json([]);
     res.json(result);
