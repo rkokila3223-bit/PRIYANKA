@@ -7,16 +7,32 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // DB CONNECTION
+// ✅ create connection using Railway env variables
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "flower", // 👉 put your mysql password if you have
-  database: "portfolio_db"
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
 });
 
-db.connect(err => {
-  if (err) console.log("DB ERROR ❌", err);
-  else console.log("MySQL Connected ✅");
+// ✅ connect to DB
+db.connect((err) => {
+  if (err) {
+    console.log("❌ DB Connection Failed:", err);
+  } else {
+    console.log("✅ Connected to Railway MySQL");
+
+    // ✅ create table if not exists
+    db.query(`
+      CREATE TABLE IF NOT EXISTS messages (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100),
+        email VARCHAR(100),
+        message TEXT
+      )
+    `);
+  }
 });
 
 // SEND MESSAGE
