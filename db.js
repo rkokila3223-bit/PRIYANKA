@@ -1,15 +1,21 @@
-const mysql = require("mysql2");
+const { Pool } = require("pg");
 
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "flower",
-  database: "portfolio_db"
+// ✅ Create connection pool for Render PostgreSQL
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log("MySQL Connected...");
+// ✅ Test connection
+db.connect((err, client, release) => {
+  if (err) {
+    console.error("DB ERROR ❌", err);
+  } else {
+    console.log("PostgreSQL Connected ✅");
+    release();
+  }
 });
 
 module.exports = db;
