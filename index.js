@@ -7,55 +7,42 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // DB CONNECTION
-// ✅ Railway DB connection
 const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQLPASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT
+  host: "localhost",
+  user: "root",
+  password: "flower", // 👉 put your mysql password if you have
+  database: "portfolio_db"
 });
 
-// ✅ Create table
 db.connect(err => {
-  if (err) {
-    console.log("DB Error:", err);
-    return;
-  }
-  console.log("Connected to DB");
-
-  db.query(`
-    CREATE TABLE IF NOT EXISTS messages (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      name VARCHAR(100),
-      email VARCHAR(100),
-      message TEXT
-    )
-  `);
+  if (err) console.log("DB ERROR ❌", err);
+  else console.log("MySQL Connected ✅");
 });
 
-// ✅ POST - save message
+// SEND MESSAGE
 app.post("/send", (req, res) => {
   const { name, email, message } = req.body;
 
   const sql = "INSERT INTO messages (name, email, message) VALUES (?, ?, ?)";
+
   db.query(sql, [name, email, message], (err) => {
     if (err) {
       console.log(err);
-      return res.send("Error");
+      return res.json({ success: false });
     }
-    res.send("Success");
+    res.json({ success: true });
   });
 });
 
-// ✅ GET - fetch messages
+// GET MESSAGES
 app.get("/messages", (req, res) => {
-  db.query("SELECT * FROM messages", (err, result) => {
+  db.query("SELECT * FROM messages ORDER BY id DESC", (err, result) => {
     if (err) return res.json([]);
     res.json(result);
   });
 });
 
-// ✅ IMPORTANT (Railway port)
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server running"));
+// START
+app.listen(3000, () => {
+  console.log("Server running http://localhost:3000 🚀");
+});
