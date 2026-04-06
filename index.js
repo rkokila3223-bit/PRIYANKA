@@ -16,7 +16,7 @@ const db = mysql.createConnection({
   port: "3306"
 });
 
-// ✅ connect to DB
+// ✅ connect to Database
 db.connect((err) => {
   if (err) {
     console.log("❌ DB Connection Failed:", err);
