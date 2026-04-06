@@ -24,7 +24,8 @@ function sendMessage() {
 }
 
 function loadMessages() {
-  fetch("https://priyanka-production.up.railway.app/messages")
+  fetch("https://priyanka-production.up.railway.app
+    /messages")
   .then(res => res.json())
   .then(data => {
     const box = document.getElementById("msgList");
